@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Order Management API
+  version: 1.0.0
+  description: API для управления заказами
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер разработки
+
+paths:
+  /orders/create:
+    post:
+      tags:
+        - Orders
+      summary: Создать новый заказ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '201':
+          description: Заказ успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /orders/find/{id}:
+    get:
+      tags:
+        - Orders
+      summary: Получить заказ по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Найденный заказ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Заказ не найден
+  /orders/findAll:
+    get:
+      tags:
+        - Orders
+      summary: Получить заказы по указанной дате и минимальной общей сумме
+      parameters:
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: minTotal
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Найденные заказ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Заказы не найден
+  /orders/without-product:
+    get:
+      tags:
+        - Orders
+      summary: Получить заказы в указанный срок, но без товаров с указанным артиклем
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: articleProduct
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Найденные заказ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Заказы не найдены
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        totalOrderAmount:
+          type: number
+          format: integer
+          example: 720
+        address:
+          type: string
+          example: "ул. Примерная, д.1"
+        deliveryAddress:
+          type: string
+          example: "ул. Доставки, д.5"
+        paymentType:
+          type: string
+          example: "cart"
+        deliveryType:
+          type: string
+          example: "pickup"
+        orderDetails:
+          additionalProperties:
+            {["articleProduct":123, "nameProduct":"Детали", "quantity":120, "unitCost":6]}

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: order-management
+  datasource:
+   url : jdbc:postgresql://localhost:5432/postgres?currentSchema=orders
+   username: postgres
+   password: admin
+   driver-class-name: org.postgresql.Driver
+   sql.init.mode: always
