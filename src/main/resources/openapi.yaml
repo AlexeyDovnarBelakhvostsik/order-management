@@ -65,7 +65,7 @@ paths:
             type: string
             format: date
             pattern: '^\d{8}$'
-            example: "20231025"
+            example: "20250128"
         - name: minTotal
           in: query
           required: true
@@ -95,7 +95,7 @@ paths:
             type: string
             format: date
             pattern: '^\d{8}$'
-            example: "20230101"
+            example: "20250128"
         - name: endDate
           in: query
           required: true
@@ -103,13 +103,13 @@ paths:
             type: string
             format: date
             pattern: '^\d{8}$'
-            example: "20231231"
+            example: "20250131"
         - name: articleProduct
           in: query
           required: true
           schema:
             type: integer
-            example: 12345
+            example: 123
       responses:
         '200':
           description: Список заказов без указанного товара
@@ -134,7 +134,7 @@ components:
         orderDate:
           type: string
           format: date
-          example: "2023-10-25"
+          example: "2025-01-28"
         address:
           type: string
           example: "ул. Тестовая, 1"
@@ -183,7 +183,7 @@ components:
         orderDate:
           type: string
           format: date
-          example: "2023-10-25"
+          example: "2025-01-28"
         address:
           type: string
           example: "ул. Тестовая, 1"
@@ -212,7 +212,7 @@ components:
         orderDate:
           type: string
           format: date
-          example: "2023-10-25"
+          example: "2025-01-28"
         address:
           type: string
           example: "ул. Тестовая, 1"
