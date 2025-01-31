@@ -18,14 +18,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderRequest'
+              $ref: '#/components/schemas/OrdersEntity'
       responses:
-        '201':
+        '200':
           description: Заказ успешно создан
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: '#/components/schemas/Order'
+                type: string
+                example: "Success"
 
   /orders/find/{id}:
     get:
@@ -38,46 +39,54 @@ paths:
           required: true
           schema:
             type: integer
+            example: 1
       responses:
         '200':
           description: Найденный заказ
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrdersDto'
         '404':
           description: Заказ не найден
+
   /orders/findAll:
     get:
       tags:
         - Orders
-      summary: Получить заказы по указанной дате и минимальной общей сумме
+      summary: Получить заказы по дате и минимальной сумме
       parameters:
         - name: date
           in: query
-          required: false
+          required: true
           schema:
             type: string
             format: date
+            pattern: '^\d{8}$'
+            example: "20231025"
         - name: minTotal
           in: query
           required: true
           schema:
             type: integer
+            example: 100
       responses:
         '200':
-          description: Найденные заказ
+          description: Список заказов
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '404':
-          description: Заказы не найден
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrdersDto'
+
   /orders/without-product:
     get:
       tags:
         - Orders
-      summary: Получить заказы в указанный срок, но без товаров с указанным артиклем
+      summary: Получить заказы без указанного товара
       parameters:
         - name: startDate
           in: query
@@ -85,48 +94,134 @@ paths:
           schema:
             type: string
             format: date
+            pattern: '^\d{8}$'
+            example: "20230101"
         - name: endDate
           in: query
           required: true
           schema:
             type: string
             format: date
+            pattern: '^\d{8}$'
+            example: "20231231"
         - name: articleProduct
           in: query
           required: true
           schema:
             type: integer
+            example: 12345
       responses:
         '200':
-          description: Найденные заказ
+          description: Список заказов без указанного товара
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '404':
-          description: Заказы не найдены
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrdersDtoWithoutProduct'
 
 components:
   schemas:
-    Order:
+    OrdersEntity:
       type: object
       properties:
+        orderNumber:
+          type: string
+          example: "ORD-123"
         totalOrderAmount:
-          type: number
-          format: integer
-          example: 720
+          type: integer
+          example: 1000
+        orderDate:
+          type: string
+          format: date
+          example: "2023-10-25"
         address:
           type: string
-          example: "ул. Примерная, д.1"
+          example: "ул. Тестовая, 1"
         deliveryAddress:
           type: string
-          example: "ул. Доставки, д.5"
+          example: "ул. Доставки, 5"
         paymentType:
           type: string
-          example: "cart"
+          example: "CARD"
         deliveryType:
           type: string
-          example: "pickup"
-        orderDetails:
-          additionalProperties:
-            {["articleProduct":123, "nameProduct":"Детали", "quantity":120, "unitCost":6]}
+          example: "COURIER"
+        ordersDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrdersDetailsEntity'
+
+    OrdersDetailsEntity:
+      type: object
+      properties:
+        articleProduct:
+          type: integer
+          example: 1001
+        nameProduct:
+          type: string
+          example: "Тестовый товар 1"
+        quantity:
+          type: integer
+          example: 2
+        unitCost:
+          type: integer
+          example: 300
+
+    OrdersDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        orderNumber:
+          type: string
+          example: "ORD-123"
+        totalOrderAmount:
+          type: integer
+          example: 1000
+        orderDate:
+          type: string
+          format: date
+          example: "2023-10-25"
+        address:
+          type: string
+          example: "ул. Тестовая, 1"
+        deliveryAddress:
+          type: string
+          example: "ул. Доставки, 5"
+        paymentType:
+          type: string
+          example: "CARD"
+        deliveryType:
+          type: string
+          example: "COURIER"
+
+    OrdersDtoWithoutProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        orderNumber:
+          type: string
+          example: "ORD-123"
+        totalOrderAmount:
+          type: integer
+          example: 1000
+        orderDate:
+          type: string
+          format: date
+          example: "2023-10-25"
+        address:
+          type: string
+          example: "ул. Тестовая, 1"
+        deliveryAddress:
+          type: string
+          example: "ул. Доставки, 5"
+        paymentType:
+          type: string
+          example: "CARD"
+        deliveryType:
+          type: string
+          example: "COURIER"

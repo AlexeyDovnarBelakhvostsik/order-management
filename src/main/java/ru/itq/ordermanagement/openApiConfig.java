@@ -5,6 +5,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Это класс конфигуратор для Swagger
+ */
 public class openApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
@@ -15,6 +18,6 @@ public class openApiConfig {
                         .description("API для управления заказами"))
                 .externalDocs(new ExternalDocumentation()
                         .description("Документация API")
-                        .url("/v3/openapi.yaml"));
+                        .url("/v3/api-docs.yaml"));
     }
 }
