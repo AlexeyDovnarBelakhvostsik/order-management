@@ -1,6 +1,7 @@
 package ru.itq.ordermanagement.service;
 
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.itq.ordermanagement.dto.OrdersDto;
 import ru.itq.ordermanagement.dto.OrdersDtoWithoutProduct;
@@ -18,13 +19,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * реализовано создание неповторимого идентификационного номера
  */
 @Component
+@AllArgsConstructor
 public class OrderServiceImpl implements OrdersService {
 
     private final OrdersRepository ordersRepository;
-
-    public OrderServiceImpl(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
-    }
 
     @Override
     public void save(OrdersEntity ordersEntity) {

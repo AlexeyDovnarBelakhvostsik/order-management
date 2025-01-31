@@ -1,5 +1,6 @@
 package ru.itq.ordermanagement.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +16,12 @@ import java.util.List;
  * Класс Контроллер, хранит входные точки для запросов
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/orders")
 public class OrdersController {
+
     private final OrdersService ordersService;
 
-
-    public OrdersController(OrdersService ordersService) {
-        this.ordersService = ordersService;
-    }
     /**
      * Метод для создания заказа
      */
