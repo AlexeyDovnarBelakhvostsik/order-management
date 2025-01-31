@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Класс для реализации методов с поступившими данными
  * в данном случае реализован функционал для назначения полб orderDate локальной даты и
- * реализовано создание неповторимого идентефикационного номера
+ * реализовано создание неповторимого идентификационного номера
  */
 @Component
 public class OrderServiceImpl implements OrdersService {
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrdersService {
 
         int randomNumber = ThreadLocalRandom.current().nextInt(0, 99999);
 
-        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("YYYYMMDD");
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyyMMdd");
         String localDate = LocalDate.now().format(formatters);
 
         String orderNumber = randomNumber + localDate;

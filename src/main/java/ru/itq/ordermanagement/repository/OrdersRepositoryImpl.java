@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Класс для реализации метод из соответствующего интерфейса
- * Содержит аннотация @Component для видимости класса как компонента Spring контейнера
+ * Класс для реализации метод из соответствующего интерфейса.
+ * Содержит аннотация @Component для видимости класса как компонента Spring контейнера,
  * содержит запросы к БД в формате SQL
  * и реализацию методов через prepareStatement для защиты от SQL инъекций
  */
@@ -28,15 +28,21 @@ public class OrdersRepositoryImpl implements OrdersRepository, InitializingBean 
 
     private final DataSource dataSource;
 
-    /** Создание заказа */
+    /**
+     * Создание заказа
+     */
     private final static String CREATE_ORDER = "INSERT INTO orders (orderNumber, totalOrderAmount, orderDate, address, deliveryAddress,paymentType,deliveryType) VALUES ( ?,?,?,?,?,?,?)";
 
-    /** Получение заказа по его идентификатору */
+    /**
+     * Получение заказа по его идентификатору
+     */
     private final static String DETAILS = "INSERT INTO ordersdetails (articleProduct, nameProduct, quantity,unitCost,idOrders) VALUES (?, ?, ?, ?,?)";
 
     private static final String READ_ORDER_ID = "SELECT * from orders where id = ?";
 
-    /** Получение заказа за заданную дату и больше заданной общей суммы заказа */
+    /**
+     * Получение заказа за заданную дату и больше заданной общей суммы заказа
+     */
     private static final String READ_ALL_LOCAL_DATE_MIN_TOTAL = "SELECT *  from orders WHERE orderDate = ? AND totalOrderAmount > ?";
 
     /**
@@ -62,7 +68,7 @@ public class OrdersRepositoryImpl implements OrdersRepository, InitializingBean 
             statement.setString(7, ordersEntity.getDeliveryType());
             statement.executeUpdate();
 
-            try (ResultSet rs = statement.getGeneratedKeys();) {
+            try (ResultSet rs = statement.getGeneratedKeys()) {
                 while (rs.next()) {
                     key = rs.getInt(1);
                 }
@@ -121,7 +127,7 @@ public class OrdersRepositoryImpl implements OrdersRepository, InitializingBean 
                         rs.getString("deliveryAddress"),
                         rs.getString("paymentType"),
                         rs.getString("deliveryType"));
-list.add(ordersDto);
+                list.add(ordersDto);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -132,7 +138,7 @@ list.add(ordersDto);
     @Override
     public List<OrdersDtoWithoutProduct> withoutProduct(LocalDate startDate, LocalDate endDate, int articleProduct) {
         ArrayList<OrdersDtoWithoutProduct> list = new ArrayList<>();
-        try(var connection = dataSource.getConnection(); var statement = connection.prepareStatement(READ_ALL_WITHOUT_PRODUCT)) {
+        try (var connection = dataSource.getConnection(); var statement = connection.prepareStatement(READ_ALL_WITHOUT_PRODUCT)) {
             statement.setDate(1, Date.valueOf(startDate));
             statement.setDate(2, Date.valueOf(endDate));
             statement.setInt(3, articleProduct);
@@ -155,7 +161,7 @@ list.add(ordersDto);
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         if (dataSource == null) {
             throw new BeanCreationException("dataSource is null");
         }

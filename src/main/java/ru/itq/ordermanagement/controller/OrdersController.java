@@ -43,7 +43,7 @@ public class OrdersController {
     }
 
     /**
-     * Метод для взятия из БД всех заказов по указанной в парамметрах дате и минимальной общей сумме
+     * Метод для взятия из БД всех заказов по указанной в параметрах дате и минимальной общей сумме
      */
     @GetMapping("/findAll")
     public List<OrdersDto> findAll(@RequestParam @DateTimeFormat(pattern = "yyyyMMdd") LocalDate date,
@@ -53,7 +53,7 @@ public class OrdersController {
     }
 
     /**
-     * Метод для взятия из БД заказов за указанный в парамметрах срок, но без товаров с указанным артиклем
+     * Метод для взятия из БД заказов за указанный в параметрах срок, но без товаров с указанным артиклем
      */
     @GetMapping("/without-product")
     public List<OrdersDtoWithoutProduct> withoutProduct(@RequestParam @DateTimeFormat(pattern = "yyyyMMdd") LocalDate startDate,
