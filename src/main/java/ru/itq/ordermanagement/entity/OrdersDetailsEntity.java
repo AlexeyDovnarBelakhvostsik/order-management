@@ -12,8 +12,7 @@ import lombok.Setter;
  * toString переопределен в этом же классе стандартным методом
  */
 
-@Getter
-@Setter
+
 public class OrdersDetailsEntity {
     private int id;
     private  int articleProduct;
@@ -27,6 +26,57 @@ public class OrdersDetailsEntity {
         this.nameProduct = nameProduct;
         this.quantity = quantity;
         this.unitCost = unitCost;
+    }
+
+    public OrdersDetailsEntity() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getArticleProduct() {
+        return articleProduct;
+    }
+
+    public void setArticleProduct(int articleProduct) {
+        this.articleProduct = articleProduct;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(int unitCost) {
+        this.unitCost = unitCost;
+    }
+
+    public int getIdOrders() {
+        return idOrders;
+    }
+
+    public void setIdOrders(int idOrders) {
+        this.idOrders = idOrders;
     }
 
     @Override

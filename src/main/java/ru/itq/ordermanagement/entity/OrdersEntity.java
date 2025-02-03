@@ -15,8 +15,7 @@ import java.util.List;
  * Геттеры и Сеттеры созданы библиотекой Lombok(Lombok иногда отваливается, поэтому пока по старинке созданы)
  * toString переопределен в этом же классе стандартным методом
  */
-@Setter
-@Getter
+
 @Data
 @Table(name = "orders", schema = "orders")
 public class OrdersEntity {
@@ -32,6 +31,78 @@ public class OrdersEntity {
     private List<OrdersDetailsEntity> ordersDetails;
 
     public OrdersEntity() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public int getTotalOrderAmount() {
+        return totalOrderAmount;
+    }
+
+    public void setTotalOrderAmount(int totalOrderAmount) {
+        this.totalOrderAmount = totalOrderAmount;
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public List<OrdersDetailsEntity> getOrdersDetails() {
+        return ordersDetails;
+    }
+
+    public void setOrdersDetails(List<OrdersDetailsEntity> ordersDetails) {
+        this.ordersDetails = ordersDetails;
     }
 
     @Override

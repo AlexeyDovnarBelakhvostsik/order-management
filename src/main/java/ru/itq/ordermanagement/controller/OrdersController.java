@@ -1,12 +1,13 @@
 package ru.itq.ordermanagement.controller;
 
-import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ru.itq.ordermanagement.dto.OrdersDto;
 import ru.itq.ordermanagement.dto.OrdersDtoWithoutProduct;
 import ru.itq.ordermanagement.entity.OrdersEntity;
+import ru.itq.ordermanagement.service.NumberService;
 import ru.itq.ordermanagement.service.OrdersService;
 
 import java.time.LocalDate;
@@ -16,11 +17,18 @@ import java.util.List;
  * Класс Контроллер, хранит входные точки для запросов
  */
 @RestController
-@AllArgsConstructor
 @RequestMapping(value = "/orders")
 public class OrdersController {
 
     private final OrdersService ordersService;
+
+    private final NumberService numberService;
+
+    public OrdersController(OrdersService ordersService, NumberService numberService) {
+        this.ordersService = ordersService;
+        this.numberService = numberService;
+    }
+
 
     /**
      * Метод для создания заказа
@@ -60,5 +68,13 @@ public class OrdersController {
                                                         @RequestParam int articleProduct) {
 
         return ordersService.withoutProduct(startDate, endDate, articleProduct);
+    }
+    /**
+     * Метод для взятия из Redis номер заказа по ключу(адрес доставки)
+     */
+    @GetMapping("/{key}")
+
+    public ResponseEntity<String> getNumber(@PathVariable String key) {
+        return ResponseEntity.ok(numberService.getNumber(key));
     }
 }

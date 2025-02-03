@@ -120,6 +120,49 @@ paths:
                 items:
                   $ref: '#/components/schemas/OrdersDtoWithoutProduct'
 
+  /orders/{key}:
+    get:
+      tags:
+        - Orders
+      summary: Получить номер заказа по ключу
+      description: Возвращает заказ по уникальному идентификатору из Redis
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Уникальный идентификатор заказа (ключ в Redis)
+          schema:
+            type: string
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Найден заказ
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ORD-12345"
+        '404':
+          description: Заказ не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Номер не найден"
+        '500':
+          description: Ошибка сервера
+          content:
+            application.json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+
 components:
   schemas:
     OrdersEntity:

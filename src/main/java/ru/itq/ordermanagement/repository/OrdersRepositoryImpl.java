@@ -25,7 +25,7 @@ import java.util.List;
  * и реализацию методов через prepareStatement для защиты от SQL инъекций
  */
 @Component
-@AllArgsConstructor
+
 public class OrdersRepositoryImpl implements OrdersRepository, InitializingBean {
 
     private final DataSource dataSource;
@@ -51,6 +51,10 @@ public class OrdersRepositoryImpl implements OrdersRepository, InitializingBean 
      * Получение списка заказов, НЕ содержащих заданный товар и поступивших в заданный временной период.
      */
     private static final String READ_ALL_WITHOUT_PRODUCT = "SELECT o.* FROM orders o WHERE o.orderdate BETWEEN ? AND ? AND NOT EXISTS (SELECT 1 FROM ordersdetails od WHERE od.idorders = o.id AND od.articleproduct = ?)";
+
+    public OrdersRepositoryImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public void save(OrdersEntity ordersEntity) {
