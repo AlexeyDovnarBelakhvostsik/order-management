@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.itq.ordermanagement.dto.OrdersDto;
 import ru.itq.ordermanagement.dto.OrdersDtoWithoutProduct;
 import ru.itq.ordermanagement.entity.OrdersEntity;
+import ru.itq.ordermanagement.service.NumberService;
 import ru.itq.ordermanagement.service.OrdersService;
 
 import java.time.LocalDate;
@@ -32,6 +33,9 @@ public class ControllerTest {
 
     @MockBean
     private OrdersService ordersService;
+
+    @MockBean
+    private NumberService numberService;
 
     /** Проверить, что при POST-запросе с валидным телом вызывается метод save сервиса и возвращается строка "Success".
      */
@@ -114,6 +118,24 @@ public class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(3))
                 .andExpect(jsonPath("$[0].orderNumber").value("ORD-789"));
+    }
+
+    /**
+     * Обращается к Redis через numberService.
+     * Замокать numberService.getNumber() и проверить, что возвращается корректное значение и статус 200.
+     */
+    @Test
+    void getNumber_ShouldReturnNumberFromRedis() throws Exception {
+        String testKey = "test-address";
+        String expectedNumber = "ORDER-123";
+
+        when(numberService.getNumber(testKey)).thenReturn(expectedNumber);
+
+        mockMvc.perform(get("/orders/{key}", testKey))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedNumber));
+
+        verify(numberService).getNumber(testKey);
     }
 
     private static String asJsonString(final Object obj) {

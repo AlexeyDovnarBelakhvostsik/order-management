@@ -9,3 +9,15 @@ spring:
   redis:
     host= localhost
     port= 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+      cache-null-values: false
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  api-docs:
+    path: /v3/api-docs
+

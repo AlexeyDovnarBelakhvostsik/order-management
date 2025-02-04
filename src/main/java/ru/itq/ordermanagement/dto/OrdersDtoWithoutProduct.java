@@ -3,6 +3,7 @@ package ru.itq.ordermanagement.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -12,7 +13,7 @@ import java.time.LocalDate;
  * toString переопределен в этом же классе стандартным методом
  */
 
-public class OrdersDtoWithoutProduct {
+public class OrdersDtoWithoutProduct implements Serializable {
     private int id;
     private String orderNumber;
     private int totalOrderAmount;
